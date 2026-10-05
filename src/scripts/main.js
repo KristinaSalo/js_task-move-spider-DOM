@@ -4,11 +4,16 @@ const wall = document.querySelector('.wall');
 const spider = document.querySelector('.spider');
 
 wall.addEventListener('click', (e) => {
+  const wallRect = wall.getBoundingClientRect();
+
   const spiderWidth = spider.offsetWidth;
   const spiderHeight = spider.offsetHeight;
 
-  let left = e.offsetX - spiderWidth / 2;
-  let topCoord = e.offsetY - spiderHeight / 2;
+  const wallClientLeft = wallRect.left + wall.clientLeft;
+  const wallClientTop = wallRect.top + wall.clientTop;
+
+  let leftCoord = e.clientX - wallClientLeft - spiderWidth / 2;
+  let topCoord = e.clientY - wallClientTop - spiderHeight / 2;
 
   const minLeft = 0;
   const maxLeft = wall.clientWidth - spiderWidth;
@@ -16,9 +21,9 @@ wall.addEventListener('click', (e) => {
   const minTop = 0;
   const maxTop = wall.clientHeight - spiderHeight;
 
-  left = Math.max(minLeft, Math.min(left, maxLeft));
+  leftCoord = Math.max(minLeft, Math.min(leftCoord, maxLeft));
   topCoord = Math.max(minTop, Math.min(topCoord, maxTop));
 
-  spider.style.left = `${left}px`;
+  spider.style.left = `${leftCoord}px`;
   spider.style.top = `${topCoord}px`;
 });
